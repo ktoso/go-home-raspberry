@@ -5,6 +5,7 @@ import (
     "html/template"
     "log"
     "net/http"
+    "os/exec"
 )
 
 var addr = flag.String("0.0.0.0", ":8080", "") // Q=17, R=18
@@ -12,12 +13,19 @@ var addr = flag.String("0.0.0.0", ":8080", "") // Q=17, R=18
 var templ = template.Must(template.New("qr").Parse(templateStr))
 
 func main() {
+    
+  switchState("off", "B")  
+
     flag.Parse()
     http.Handle("/", http.HandlerFunc(QR))
     err := http.ListenAndServe(*addr, nil)
     if err != nil {
         log.Fatal("ListenAndServe:", err)
     }
+}
+
+func switchState(name String, state: String) {
+  exec.Command("tdtool", "--", state, name)
 }
 
 func QR(w http.ResponseWriter, req *http.Request) {
