@@ -2,9 +2,6 @@ package main
 
 import (
 	"bytes"
-	"flag"
-	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"os/exec"
