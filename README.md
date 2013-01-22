@@ -14,12 +14,16 @@ http://dave.cheney.net/tag/go-golang-raspberrypi
 to install telldus tools
 ------------------------
 
-http://developer.telldus.com/wiki/TellStickInstallationUbuntu
+http://elinux.org/R-Pi_Tellstick_core
 
-    sudo echo 'deb http://download.telldus.com/debian/ stable main' >> /etc/apt/sources.list
-    wget -q http://download.telldus.se/debian/telldus-public.key -O- | sudo apt-key add -
-    sudo apt-get update
-    sudo apt-get install telldus-core    
+    wget http://download.telldus.se/TellStick/Software/telldus-core/telldus-core-2.1.1.tar.gz
+    sudo apt-get install libftdi1 libftdi-dev libconfuse0 libconfuse-dev cmake
+    cd /usr/src
+    sudo tar xzf ~/download/telldus-core-2.1.1.tar.gz
+    cd telldus-core-2.1.1
+    sudo cmake .
+    sudo make
+    sudo make install
 
 to install the go library
 -------------------------
