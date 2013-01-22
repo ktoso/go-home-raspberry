@@ -25,6 +25,49 @@ http://elinux.org/R-Pi_Tellstick_core
     sudo make
     sudo make install
 
+then configure `/etc/tellstick.conf`
+
+    user = "nobody"
+    group = "plugdev"
+    deviceNode = "/dev/tellstick"
+    ignoreControllerConfirmation = "false"
+    
+    device {
+      id = 1
+      name = "C"
+      controller = 0
+      protocol = "sartano"
+      model = "codeswitch:elro"
+      parameters {
+        # devices = ""
+        house = "A"
+        unit = "1"
+        code = "1111100100"
+        system = "1"
+        # units = ""
+        fade = "false"
+      }
+    }
+    
+    device {
+      id = 2
+      name = "B"
+      controller = 0
+      protocol = "sartano"
+      model = "codeswitch:elro"
+      parameters {
+        # devices = ""
+        house = "A"
+        unit = "1"
+        code = "1111101000"
+        system = "1"
+        # units = ""
+        fade = "false"
+      }
+    }
+
+then configure the daemon...
+
 to install the go library
 -------------------------
 
