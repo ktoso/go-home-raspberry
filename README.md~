@@ -11,16 +11,6 @@ to install go
 
 http://dave.cheney.net/tag/go-golang-raspberrypi
 
-to install telldus tools
-------------------------
-
-http://developer.telldus.com/wiki/TellStickInstallationUbuntu
-
-    sudo echo 'deb http://download.telldus.com/debian/ stable main' >> /etc/apt/sources.list
-    wget -q http://download.telldus.se/debian/telldus-public.key -O- | sudo apt-key add -
-    sudo apt-get update
-    sudo apt-get install telldus-core    
-
 to install the go library
 -------------------------
 

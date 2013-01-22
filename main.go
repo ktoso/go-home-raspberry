@@ -2,10 +2,13 @@ package main
 
 import (
     "flag"
+    "fmt"
     "html/template"
     "log"
     "net/http"
     "os/exec"
+    "bytes"
+    "strings"
 )
 
 var addr = flag.String("0.0.0.0", ":8080", "") // Q=17, R=18
@@ -14,7 +17,7 @@ var templ = template.Must(template.New("qr").Parse(templateStr))
 
 func main() {
     
-  switchState("off", "B")  
+    switchState("off", "B")  
 
     flag.Parse()
     http.Handle("/", http.HandlerFunc(QR))
@@ -24,8 +27,18 @@ func main() {
     }
 }
 
-func switchState(name String, state: String) {
-  exec.Command("tdtool", "--", state, name)
+func switchState(state string, name string) {
+  cmd := exec.Command("tdtool", "--off", name)
+  cmd.Stdin = strings.NewReader("")
+  var out bytes.Buffer
+  
+  err := cmd.Run()
+  if err != nil {
+    log.Fatal(err)
+  }
+
+  fmt.Print("got: %q\n", out.String())
+  
 }
 
 func QR(w http.ResponseWriter, req *http.Request) {
