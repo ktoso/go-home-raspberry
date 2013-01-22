@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"log"
-	"net/http"
 	"os/exec"
 	"strings"
 
@@ -27,9 +26,11 @@ type HelloService struct {
 }
 
 func (serv HelloService) Enable(name string) string {
+	log.Print(name)
 	return switchState("--on", name)
 }
 func (serv HelloService) Disable(name string) string {
+	log.Print(name)
 	return switchState("--off", name)
 }
 
@@ -43,6 +44,5 @@ func switchState(state string, name string) string {
 		log.Fatal(err)
 	}
 
-	out.String()
-
+	return out.String()
 }
