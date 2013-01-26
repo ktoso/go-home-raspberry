@@ -76,3 +76,10 @@ to install the go library
     go run main.go
 
 http://code.google.com/p/gorest/wiki/GettingStarted?tm=6
+
+
+license
+=======
+
+I hereby release this software on the terms of the **beerware v2 open source license**.
+To make it short, use it however you want, but if we meet and you like dthe software - buy me a beer (or slice of pizza).
