@@ -1,0 +1,19 @@
+#!/bin/sh
+
+if [ $# != 2 ]; then
+  echo "Usage: home [name] [on/off]"
+  exit 2
+fi
+
+name="$1"
+
+if [ "$2" == 'on' ]; then
+  state='enable'
+elif [ "$2" == 'off' ]; then
+  state='disable'
+fi
+
+raspberry_ip='192.168.1.19'
+
+echo "Calling $state for device [$name]"
+curl http://$raspberry_ip:5555/$state/$name
