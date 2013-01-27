@@ -12,7 +12,7 @@ You'll need:
 * sd card
 * ethernet / usb micro cables
 
-<img src=""/>
+<img src="https://raw.github.com/ktoso/go-home-raspberry/master/device.png" alt="the device"/>
 
 demo
 ----
