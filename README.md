@@ -1,3 +1,14 @@
+go home raspberry
+=================
+Is a simple app to control home devices by turning them on/off, using a simple HTTP call.
+The app should be running on a raspberry pi (least energy consuption) and be equiped with an telldus tellstick.
+
+demo
+----
+Here's a demo of the app in action: http://www.youtube.com/watch?v=HdCBzMMkDDY&list=UUYSzMKdiOqRHcGiWcORlKeQ&index=1
+
+PS: Yeap, it's not restful (YET).   
+
 to install go
 -------------
 
