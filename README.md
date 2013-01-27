@@ -8,8 +8,9 @@ what you'll need
 You'll need:
 
 * raspberry pi, 
-* telldus tellstic,
-* sd card
+* telldus tellstick,
+* sd card,
+* radio controlled power outlets,
 * ethernet / usb micro cables
 
 <img src="https://raw.github.com/ktoso/go-home-raspberry/master/device.png" alt="the device"/>
