@@ -27,11 +27,13 @@ type HelloService struct {
 
 func (serv HelloService) Enable(name string) string {
 	log.Print(name)
-	return switchState("--on", name)
+	go switchState("--on", name)
+  return name
 }
 func (serv HelloService) Disable(name string) string {
 	log.Print(name)
-	return switchState("--off", name)
+	go switchState("--off", name)
+  return name
 }
 
 func switchState(state string, name string) string {
