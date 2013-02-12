@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"log"
 	"os/exec"
+	"strconv"
 	"strings"
+	"time"
 
 	"code.google.com/p/gorest"
 	"net/http"
@@ -62,7 +64,7 @@ func (serv HelloService) DisableAfter(name string, s int) string {
 	log.Print("Will [disable] device [", name, "] in [", s, "] seconds...")
 
 	c := make(chan string)
-	go switchStateiAfter("--off", name, s, c)
+	go switchStateAfter("--off", name, s, c)
 	go logOnSuccess(name, c)
 
 	return "disable scheduled"
@@ -74,16 +76,20 @@ func logOnSuccess(name string, c chan string) {
 	}
 }
 
-func switchState(state string, name string, seconds int, c chan string) string {
-  cWhen = time.Tick(seconds * time.Second)
-  select {
-    case <- cWhen:
-      log.Print("")
-      switchState(state, name, c)
-    case <- time.After(360 * time.Minute):
-      log.Print("Timeout on [", name, "]! Waited longer than 360 minutes to enable some action...")
-      c <- "timeout"
-  }
+func switchStateAfter(state string, name string, seconds int, c chan string) string {
+	dur, _ := time.ParseDuration(strconv.Itoa(seconds) + "s")
+	var cWhen = time.Tick(dur)
+
+	select {
+	case <-cWhen:
+		log.Print("")
+		switchState(state, name, c)
+	case <-time.After(360 * time.Minute):
+		log.Print("Timeout on [", name, "]! Waited longer than 360 minutes to enable some action...")
+		c <- "timeout"
+	}
+
+	return "actions scheduled"
 }
 
 func switchState(state string, name string, c chan string) string {
