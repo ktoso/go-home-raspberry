@@ -47,7 +47,7 @@ func (serv HelloService) EnableAfter(name string, s int) string {
 	go switchStateAfter("--on", name, s, c)
 	go logOnSuccess(name, c)
 
-	return "enable scheduled"
+	return "enable [" + name + "] scheduled in [" + strconv.Itoa(s) + "] seconds...\n"
 }
 
 func (serv HelloService) Disable(name string) string {
@@ -67,7 +67,7 @@ func (serv HelloService) DisableAfter(name string, s int) string {
 	go switchStateAfter("--off", name, s, c)
 	go logOnSuccess(name, c)
 
-	return "disable scheduled"
+	return "disable [" + name + "] scheduled in [" + strconv.Itoa(s) + "] seconds...\n"
 }
 
 func logOnSuccess(name string, c chan string) {
