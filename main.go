@@ -33,7 +33,7 @@ func (serv HelloService) Enable(name string) string {
 
 	c := make(chan string)
 	go switchState("--on", name, c)
-	logOnSuccess(name, c)
+	go logOnSuccess(name, c)
 
 	return name
 }
@@ -43,7 +43,7 @@ func (serv HelloService) EnableAfter(name string, s int) string {
 
 	c := make(chan string)
 	go switchState("--on", name, c)
-	logOnSuccess(name, c)
+	go logOnSuccess(name, c)
 
 	return "enable scheduled"
 }
@@ -53,7 +53,7 @@ func (serv HelloService) Disable(name string) string {
 
 	c := make(chan string)
 	go switchState("--on", name, c)
-	logOnSuccess(name, c)
+	go logOnSuccess(name, c)
 
 	return name
 }
@@ -63,7 +63,7 @@ func (serv HelloService) DisableAfter(name string, s int) string {
 
 	c := make(chan string)
 	go switchState("--on", name, c)
-	logOnSuccess(name, c)
+	go logOnSuccess(name, c)
 
 	return "disable scheduled"
 }
