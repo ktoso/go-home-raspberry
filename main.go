@@ -29,28 +29,52 @@ type HelloService struct {
 }
 
 func (serv HelloService) Enable(name string) string {
-	log.Print(name)
-	go switchState("--on", name)
+	log.Print("Will [enable] device [", name, "]")
+
+	c := make(chan string)
+	go switchState("--on", name, c)
+	logOnSuccess(name, c)
+
 	return name
 }
 
 func (serv HelloService) EnableAfter(name string, s int) string {
 	log.Print("Will [enable] device [", name, "] in [", s, "] seconds...")
 
+	c := make(chan string)
+	go switchState("--on", name, c)
+	logOnSuccess(name, c)
+
 	return "enable scheduled"
 }
 
 func (serv HelloService) Disable(name string) string {
-	log.Print(name)
-	go switchState("--off", name)
+	log.Print("Will [disable] device [", name, "]")
+
+	c := make(chan string)
+	go switchState("--on", name, c)
+	logOnSuccess(name, c)
+
 	return name
 }
 
 func (serv HelloService) DisableAfter(name string, s int) string {
+	log.Print("Will [disable] device [", name, "] in [", s, "] seconds...")
+
+	c := make(chan string)
+	go switchState("--on", name, c)
+	logOnSuccess(name, c)
+
 	return "disable scheduled"
 }
 
-func switchState(state string, name string) string {
+func logOnSuccess(name string, c chan string) {
+	for msg := range c {
+		log.Print(name, " reported: ", msg)
+	}
+}
+
+func switchState(state string, name string, c chan string) string {
 	cmd := exec.Command("tdtool", state, name)
 	cmd.Stdin = strings.NewReader("")
 	var out bytes.Buffer
@@ -60,5 +84,8 @@ func switchState(state string, name string) string {
 		log.Fatal(err)
 	}
 
-	return out.String()
+	var outString = out.String()
+	c <- outString
+
+	return outString
 }
