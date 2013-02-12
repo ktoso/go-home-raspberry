@@ -93,17 +93,24 @@ func switchStateAfter(state string, name string, seconds int, c chan string) str
 }
 
 func switchState(state string, name string, c chan string) string {
-	cmd := exec.Command("tdtool", state, name)
-	cmd.Stdin = strings.NewReader("")
-	var out bytes.Buffer
+	switch name {
+	default:
+		return "invalid device id"
+	case "A", "B", "C":
+		cmd := exec.Command("tdtool", state, name)
+		cmd.Stdin = strings.NewReader("")
+		var out bytes.Buffer
 
-	err := cmd.Run()
-	if err != nil {
-		log.Fatal(err)
+		err := cmd.Run()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		var outString = out.String()
+		c <- outString
+
+		return outString
 	}
 
-	var outString = out.String()
-	c <- outString
-
-	return outString
+	return "OK"
 }
