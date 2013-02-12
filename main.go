@@ -54,7 +54,7 @@ func (serv HelloService) Disable(name string) string {
 	log.Print("Will [disable] device [", name, "]")
 
 	c := make(chan string)
-	go switchState("--on", name, c)
+	go switchState("--off", name, c)
 	go logOnSuccess(name, c)
 
 	return name
