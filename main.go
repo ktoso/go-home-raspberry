@@ -22,18 +22,32 @@ func main() {
 type HelloService struct {
 	gorest.RestService `root:"/gohomepi/"`
 	enable             gorest.EndPoint `method:"GET" path:"/enable/{name:string}" output:"string"`
-	disable            gorest.EndPoint `method:"GET" path:"/disable/{name:string}" output:"string"`
+	enableAfter        gorest.EndPoint `method:"GET" path:"/enable/{name:string}/after/{ms:int}" output:"string"`
+
+	disable      gorest.EndPoint `method:"GET" path:"/disable/{name:string}" output:"string"`
+	disableAfter gorest.EndPoint `method:"GET" path:"/disable/{name:string}/after/{ms:int}" output:"string"`
 }
 
 func (serv HelloService) Enable(name string) string {
 	log.Print(name)
 	go switchState("--on", name)
-  return name
+	return name
 }
+
+func (serv HelloService) Enable(name string, ms int) string {
+	log.Print("Will [enable] device [", name, "] in [", s, "] seconds...")
+
+	return "enable scheduled"
+}
+
 func (serv HelloService) Disable(name string) string {
 	log.Print(name)
 	go switchState("--off", name)
-  return name
+	return name
+}
+
+func (serv HelloService) Disable(name string, s int) string {
+	return "disable scheduled"
 }
 
 func switchState(state string, name string) string {
