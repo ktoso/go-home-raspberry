@@ -42,7 +42,7 @@ func (serv HelloService) EnableAfter(name string, s int) string {
 	log.Print("Will [enable] device [", name, "] in [", s, "] seconds...")
 
 	c := make(chan string)
-	go switchState("--on", name, c)
+	go switchStateAfter("--on", name, s, c)
 	go logOnSuccess(name, c)
 
 	return "enable scheduled"
@@ -62,7 +62,7 @@ func (serv HelloService) DisableAfter(name string, s int) string {
 	log.Print("Will [disable] device [", name, "] in [", s, "] seconds...")
 
 	c := make(chan string)
-	go switchState("--on", name, c)
+	go switchStateiAfter("--off", name, s, c)
 	go logOnSuccess(name, c)
 
 	return "disable scheduled"
@@ -72,6 +72,18 @@ func logOnSuccess(name string, c chan string) {
 	for msg := range c {
 		log.Print(name, " reported: ", msg)
 	}
+}
+
+func switchState(state string, name string, seconds int, c chan string) string {
+  cWhen = time.Tick(seconds * time.Second)
+  select {
+    case <- cWhen:
+      log.Print("")
+      switchState(state, name, c)
+    case <- time.After(360 * time.Minute):
+      log.Print("Timeout on [", name, "]! Waited longer than 360 minutes to enable some action...")
+      c <- "timeout"
+  }
 }
 
 func switchState(state string, name string, c chan string) string {
